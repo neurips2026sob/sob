@@ -1,0 +1,259 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "@language": "en",
+    "sc": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dct": "http://purl.org/dc/terms/",
+    "category": "dct:type",
+    "data": {"@id": "cr:data", "@type": "@json"},
+    "dataType": {"@id": "cr:dataType", "@type": "@vocab"},
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform"
+  },
+  "@type": "sc:Dataset",
+  "@id": "https://huggingface.co/datasets/neurips2026sob/sob",
+  "conformsTo": "http://mlcommons.org/croissant/1.1",
+  "name": "sob",
+  "alternateName": [
+    "The Structured Output Benchmark",
+    "SOB",
+    "neurips2026sob/sob"
+  ],
+  "description": "The Structured Output Benchmark (SOB) is a multi-source benchmark for evaluating structured-output quality in large language models. It comprises 5,324 records across three source modalities -- 5,000 text records derived from multi-hop QA (HotpotQA), 209 image records from OCR-processed PDFs (olmOCR-bench), and 115 audio records from meeting transcripts (AMI Meeting Corpus) -- all text-normalised so models receive a uniform input format. Each record pairs a natural-language question with a target JSON schema and a human-verified ground-truth answer. The benchmark is designed to evaluate value-level accuracy of LLM-produced JSON, going beyond schema-only metrics measured by prior benchmarks.",
+  "url": "https://huggingface.co/datasets/neurips2026sob/sob",
+  "creator": {
+    "@type": "sc:Organization",
+    "name": "Anonymous Authors (double-blind submission)"
+  },
+  "datePublished": "2026-05-06",
+  "version": "1.0.0",
+  "license": "https://spdx.org/licenses/CC-BY-SA-4.0",
+  "keywords": [
+    "structured output",
+    "LLM benchmark",
+    "JSON schema",
+    "value accuracy",
+    "multi-modal evaluation",
+    "hallucination",
+    "multi-hop QA",
+    "OCR document understanding",
+    "meeting transcript extraction"
+  ],
+  "isLiveDataset": false,
+  "inLanguage": "en",
+
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "repo",
+      "name": "huggingface-repository",
+      "description": "The Hugging Face dataset repository hosting all SOB data files.",
+      "contentUrl": "https://huggingface.co/datasets/neurips2026sob/sob",
+      "encodingFormat": "git+https",
+      "sha256": "main"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "text-records",
+      "name": "text-records-jsonl",
+      "description": "5,000 text records (HotpotQA-derived) in the default config, 'test' split.",
+      "containedIn": {"@id": "repo"},
+      "contentUrl": "https://huggingface.co/datasets/neurips2026sob/sob/resolve/main/data/test-00000-of-00001.parquet",
+      "encodingFormat": "application/x-parquet"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "image-records",
+      "name": "image-records-jsonl",
+      "description": "209 image records (olmOCR-bench-derived OCR markdown) in the 'image' config, 'train' split.",
+      "containedIn": {"@id": "repo"},
+      "contentUrl": "https://huggingface.co/datasets/neurips2026sob/sob/resolve/main/image/train-00000-of-00001.parquet",
+      "encodingFormat": "application/x-parquet"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "audio-records",
+      "name": "audio-records-jsonl",
+      "description": "115 audio records (AMI Meeting Corpus-derived gold transcripts) in the 'audio' config, 'train' split.",
+      "containedIn": {"@id": "repo"},
+      "contentUrl": "https://huggingface.co/datasets/neurips2026sob/sob/resolve/main/audio/train-00000-of-00001.parquet",
+      "encodingFormat": "application/x-parquet"
+    }
+  ],
+
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "text",
+      "name": "text",
+      "description": "Text-modality records: multi-hop QA pairs from HotpotQA paired with target JSON schemas and human-verified ground-truth structured outputs.",
+      "field": [
+        {"@type": "cr:Field", "@id": "text/record_id",          "name": "record_id",          "description": "Stable SHA-256 identifier for the record.",                                              "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "record_id"}}},
+        {"@type": "cr:Field", "@id": "text/context",            "name": "context",            "description": "Concatenated supporting paragraphs from HotpotQA's distractor split.",                     "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "context"}}},
+        {"@type": "cr:Field", "@id": "text/question",           "name": "question",           "description": "Multi-hop natural-language question grounded in the supporting passages.",                "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "question"}}},
+        {"@type": "cr:Field", "@id": "text/json_schema",        "name": "json_schema",        "description": "Target JSON Schema the model output must conform to.",                                    "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "json_schema"}}},
+        {"@type": "cr:Field", "@id": "text/ground_truth",       "name": "ground_truth",       "description": "Human-authored, LLM-cross-checked ground-truth structured output (JSON).",                "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "ground_truth"}}},
+        {"@type": "cr:Field", "@id": "text/schema_complexity",  "name": "schema_complexity",  "description": "Schema-complexity bucket: 'medium' or 'hard'.",                                            "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "schema_complexity"}}},
+        {"@type": "cr:Field", "@id": "text/source_id",          "name": "source_id",          "description": "HotpotQA source ID for the originating QA pair.",                                         "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "source_id"}}},
+        {"@type": "cr:Field", "@id": "text/question_difficulty","name": "question_difficulty","description": "Difficulty bucket inherited from HotpotQA: 'easy', 'medium', or 'hard'.",                  "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "question_difficulty"}}},
+        {"@type": "cr:Field", "@id": "text/source_dataset",     "name": "source_dataset",     "description": "Origin dataset identifier: 'hotpot_qa'.",                                                  "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "source_dataset"}}},
+        {"@type": "cr:Field", "@id": "text/source_answer",      "name": "source_answer",      "description": "Original short-answer string from HotpotQA, retained for cross-reference.",                "dataType": "sc:Text",  "source": {"fileObject": {"@id": "text-records"}, "extract": {"column": "source_answer"}}}
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "image",
+      "name": "image",
+      "description": "Image-modality records: OCR-validated markdown transcripts of PDF documents from olmOCR-bench, paired with target JSON schemas and ground-truth structured outputs. Models consume the OCR markdown as text rather than raw image pixels.",
+      "field": [
+        {"@type": "cr:Field", "@id": "image/record_id",         "name": "record_id",         "description": "Stable SHA-256 identifier for the record.",                                              "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "record_id"}}},
+        {"@type": "cr:Field", "@id": "image/context",           "name": "context",           "description": "OCR markdown extracted from the source PDF (not the raw image).",                          "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "context"}}},
+        {"@type": "cr:Field", "@id": "image/question",          "name": "question",          "description": "Natural-language question targeted to document type (table lookup, layout, math).",      "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "question"}}},
+        {"@type": "cr:Field", "@id": "image/json_schema",       "name": "json_schema",       "description": "Target JSON Schema the model output must conform to.",                                    "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "json_schema"}}},
+        {"@type": "cr:Field", "@id": "image/ground_truth",      "name": "ground_truth",      "description": "Human-authored, LLM-cross-checked ground-truth structured output (JSON).",                "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "ground_truth"}}},
+        {"@type": "cr:Field", "@id": "image/schema_complexity", "name": "schema_complexity", "description": "Schema-complexity bucket: 'medium' or 'hard'.",                                            "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "schema_complexity"}}},
+        {"@type": "cr:Field", "@id": "image/source_pdf",        "name": "source_pdf",        "description": "Identifier for the source PDF in olmOCR-bench.",                                          "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "source_pdf"}}},
+        {"@type": "cr:Field", "@id": "image/source_category",   "name": "source_category",   "description": "Document category: headers_footers, tables, multi_column, old_scans, arxiv_math, long_tiny_text, or old_scans_math.", "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "source_category"}}},
+        {"@type": "cr:Field", "@id": "image/test_types",        "name": "test_types",        "description": "Test-case types associated with the document.",                                           "dataType": "sc:Text",  "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "test_types"}}},
+        {"@type": "cr:Field", "@id": "image/num_test_cases",    "name": "num_test_cases",    "description": "Number of olmOCR-bench test cases attached to the source document.",                       "dataType": "sc:Integer", "source": {"fileObject": {"@id": "image-records"}, "extract": {"column": "num_test_cases"}}}
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "audio",
+      "name": "audio",
+      "description": "Audio-modality records: gold human transcripts of meetings from the AMI Meeting Corpus, paired with target JSON schemas and ground-truth structured outputs. Models consume formatted speaker-labeled transcripts as text.",
+      "field": [
+        {"@type": "cr:Field", "@id": "audio/record_id",         "name": "record_id",         "description": "Stable SHA-256 identifier for the record.",                                              "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "record_id"}}},
+        {"@type": "cr:Field", "@id": "audio/context",           "name": "context",           "description": "Speaker-labeled, timestamped transcript of an AMI meeting (gold human transcript).",     "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "context"}}},
+        {"@type": "cr:Field", "@id": "audio/question",          "name": "question",          "description": "Natural-language question about speaker turns, action items, decisions, or topics.",      "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "question"}}},
+        {"@type": "cr:Field", "@id": "audio/json_schema",       "name": "json_schema",       "description": "Target JSON Schema the model output must conform to.",                                    "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "json_schema"}}},
+        {"@type": "cr:Field", "@id": "audio/ground_truth",      "name": "ground_truth",      "description": "Human-authored, LLM-cross-checked ground-truth structured output (JSON).",                "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "ground_truth"}}},
+        {"@type": "cr:Field", "@id": "audio/schema_complexity", "name": "schema_complexity", "description": "Schema-complexity bucket: 'medium' or 'hard'.",                                            "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "schema_complexity"}}},
+        {"@type": "cr:Field", "@id": "audio/meeting_id",        "name": "meeting_id",        "description": "AMI Meeting Corpus meeting identifier (e.g., 'EN2001a').",                                "dataType": "sc:Text",   "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "meeting_id"}}},
+        {"@type": "cr:Field", "@id": "audio/num_speakers",      "name": "num_speakers",      "description": "Number of distinct speakers in the meeting.",                                              "dataType": "sc:Integer","source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "num_speakers"}}},
+        {"@type": "cr:Field", "@id": "audio/num_utterances",    "name": "num_utterances",    "description": "Number of utterances in the meeting.",                                                     "dataType": "sc:Integer","source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "num_utterances"}}},
+        {"@type": "cr:Field", "@id": "audio/duration_sec",      "name": "duration_sec",      "description": "Meeting duration in seconds.",                                                             "dataType": "sc:Number", "source": {"fileObject": {"@id": "audio-records"}, "extract": {"column": "duration_sec"}}}
+      ]
+    }
+  ],
+
+  "rai:dataLimitations": "(1) The benchmark is English-only across all three modalities. (2) The image modality consumes pre-validated OCR markdown rather than raw image pixels; results therefore measure structured-extraction skill given clean OCR, not end-to-end document understanding. (3) The audio modality consumes gold human transcripts from the AMI corpus rather than ASR output; audio numbers should be read as an upper bound for end-to-end speech-to-JSON pipelines and do not reflect ASR error. (4) Evaluation is exact-match at the leaf level: semantically equivalent paraphrases, format variants, and digit-vs-word mismatches are penalised by Value Accuracy even when they are content-faithful. (5) Schemas reflect the authors' design conventions and may not match production schemas in regulated domains (e.g., FHIR, UBL). (6) The text source has an estimated ~3% residual authoring error rate after the human-and-LLM verification pass. (7) Audio context lengths are long (~7,300 tokens median); models with shorter context windows (e.g., Phi-4 at 16K) are excluded from the audio modality.",
+
+  "rai:dataBiases": "Source-dataset biases propagate into the benchmark. (1) HotpotQA is sourced from English Wikipedia and skews toward Western/encyclopedic topics; entities, dates, and numerical claims reflect Wikipedia coverage. (2) The AMI Meeting Corpus consists of meetings recorded at the University of Edinburgh in an academic/business context with a small set of speaker accents; speaker styles and vocabulary may not generalise. (3) olmOCR-bench documents skew toward research papers, math typesetting, scanned historical documents, and tabular government/educational records; document types found in commercial production extraction (invoices, receipts, medical forms) are not represented. (4) Schema-complexity distribution is skewed toward 'hard' (61% text, 88% image, 98% audio); 'easy' schemas are rare. (5) Question phrasing was authored by a small team and may favor certain question patterns (lookup, multi-hop comparison) over others (open-ended reasoning).",
+
+  "rai:personalSensitiveInformation": "No personally-identifying information was added by the SOB authoring process. The AMI Meeting Corpus uses anonymised speaker tokens (e.g., 'MEE068', 'MEO069') in transcripts; no real names, addresses, or contact details are included in the SOB records. The text and image sources do not contain medical, financial, political, or religious data about identifiable private individuals beyond what is already public on Wikipedia and in the olmOCR-bench source documents. Geographic coverage is global at the topic level (Wikipedia) but the benchmark's text content is exclusively English.",
+
+  "rai:dataUseCases": "Construct: SOB measures the ability of LLMs to produce JSON outputs that (a) are syntactically valid, (b) conform to a target JSON Schema, and (c) carry per-field values that are factually grounded in a provided context. Recommended uses: benchmarking JSON-mode and schema-constrained-decoding modes of LLMs; ablating the effect of constrained decoding; comparing models across text/image-OCR/audio-transcript inputs under a unified evaluation framework; measuring value-level hallucination in structured extraction. Not recommended: training data (the benchmark is held-out evaluation only, with construction-time leakage risk against models trained on HotpotQA); production deployment without domain-specific calibration; fairness audits across protected demographic groups (the benchmark is not stratified for that purpose); evaluating end-to-end vision or speech pipelines (use raw images / raw audio benchmarks for that).",
+
+  "rai:dataSocialImpact": "Positive: the benchmark surfaces a structural-vs-value-accuracy gap that can otherwise be invisible to schema-only evaluation. This helps practitioners building production extraction pipelines (medical records, invoices, legal filings, document parsing) understand that high JSON Pass Rate does not imply correct values. Negative / risks: (1) leaderboard-driven optimisation may incentivise overfitting to SOB-specific schema patterns; (2) the benchmark's exact-match scoring penalises semantically-correct paraphrases, so models tuned to maximise SOB Value Accuracy may become brittle to natural rephrasing; (3) releasing the dataset itself does not introduce novel misuse risk beyond standard evaluation-suite considerations. Mitigations: we publish bootstrap 95% CIs to discourage chasing point-estimate gains; we release per-record evaluation files so that secondary analyses (semantic-equivalence-aware scoring, fairness-stratified subsets) can be implemented downstream.",
+
+  "rai:hasSyntheticData": false,
+
+  "prov:wasDerivedFrom": [
+    {
+      "@type": "sc:Dataset",
+      "@id": "https://huggingface.co/datasets/hotpotqa/hotpot_qa",
+      "name": "HotpotQA",
+      "description": "Multi-hop question answering dataset over English Wikipedia. Used as the source for SOB's text modality (5,000 records derived from the distractor split). Licensed CC BY-SA 4.0; the SOB dataset is licensed CC BY-SA 4.0 as a derivative work."
+    },
+    {
+      "@type": "sc:Dataset",
+      "@id": "https://huggingface.co/datasets/edinburghcstr/ami",
+      "name": "AMI Meeting Corpus",
+      "description": "Per-utterance gold human transcripts of multi-speaker meetings recorded at the University of Edinburgh. Used as the source for SOB's audio modality (115 records). Licensed CC BY 4.0."
+    },
+    {
+      "@type": "sc:Dataset",
+      "@id": "https://huggingface.co/datasets/allenai/olmOCR-bench",
+      "name": "olmOCR-bench",
+      "description": "PDF documents with deterministic OCR test cases across seven document types. Used as the source for SOB's image modality (209 records). Licensed under the Allen AI ImpACT terms applicable to olmOCR-bench."
+    }
+  ],
+
+  "prov:wasGeneratedBy": [
+    {
+      "@type": "prov:Activity",
+      "name": "Source data collection and filtering",
+      "category": "Collection",
+      "description": "Text records were sampled from HotpotQA's distractor split (max 26,000 candidates considered; 25,091 retained for the full corpus, of which 5,000 form the held-out test split). Image records were selected from olmOCR-bench's 1,403 PDFs by retaining only the 500 candidates with >=50% OCR pass rate, of which 209 survived authoring. Audio records were grouped from AMI Meeting Corpus utterances by meeting (115 final records). Sources were accessed through the Hugging Face Datasets library; no scraping, crawling, or web collection was performed.",
+      "prov:wasAssociatedWith": {
+        "@type": "prov:Organization",
+        "name": "Anonymous Authors (double-blind submission)",
+        "description": "The paper's authors. No third-party crowdsourcing or paid labour platforms (e.g., Mechanical Turk, Scale, Surge) were used."
+      },
+      "prov:used": "Hugging Face Datasets library; HotpotQA distractor split; olmOCR-bench PDF corpus; AMI Meeting Corpus per-utterance gold transcripts."
+    },
+    {
+      "@type": "prov:Activity",
+      "name": "Schema and ground-truth authoring",
+      "category": "Annotation",
+      "description": "For each record, a human reviewer authored both the target JSON Schema and the ground-truth answer. Gemini 2.5 Flash served as a synthetic first-draft assistant, proposing candidate schemas and ground-truth values that the human reviewer accepted, edited, or rejected. Schemas were required to declare at least three properties; ground truths were verified manually against the source context (Wikipedia paragraphs for text, OCR markdown for image, gold transcripts for audio). All annotation was performed by the paper's authors; no crowdsourcing, no paid annotators, and no third-party annotation platform was used.",
+      "prov:wasAssociatedWith": [
+        {
+          "@type": "prov:Organization",
+          "name": "Anonymous Authors (double-blind submission)",
+          "description": "Human authoring team. All authors are fluent in English; demographic details are withheld during double-blind review."
+        },
+        {
+          "@type": "prov:SoftwareAgent",
+          "name": "Gemini 2.5 Flash",
+          "description": "Synthetic agent providing first-draft schema and ground-truth suggestions; outputs were reviewed and edited by humans before acceptance."
+        }
+      ]
+    },
+    {
+      "@type": "prov:Activity",
+      "name": "Programmatic and LLM-based validation",
+      "category": "Validation",
+      "description": "Every record was passed through three programmatic checks (JSON Schema validation, Pydantic model validation, schema-to-data alignment) and one LLM-judge cross-check. Gemini 2.5 Pro acted as a synthetic judge, scoring each record on accuracy, grounding, and schema quality on a 0-100 scale; records scoring below 60 on any dimension were discarded. Text records additionally received five rounds of human review on 100-record samples, yielding an estimated ~3% residual error rate which was manually corrected. Image and audio records were reviewed record-by-record by the human team.",
+      "prov:wasAssociatedWith": [
+        {
+          "@type": "prov:Organization",
+          "name": "Anonymous Authors (double-blind submission)",
+          "description": "Human reviewers performing manual review passes and error correction."
+        },
+        {
+          "@type": "prov:SoftwareAgent",
+          "name": "Gemini 2.5 Pro",
+          "description": "Synthetic LLM judge scoring records 0-100 on accuracy, grounding, and schema quality; records scoring <60 on any dimension were discarded."
+        }
+      ],
+      "prov:used": "JSON Schema validators (jsonschema), Pydantic, Gemini API."
+    },
+    {
+      "@type": "prov:Activity",
+      "name": "Canonicalisation, hashing, and packaging",
+      "category": "Preprocessing",
+      "description": "Each record's content was canonicalised (deterministic key ordering, whitespace normalisation) and hashed; record_id is the SHA-256 of the canonical form, providing stable cross-version referencing. Records were packaged into per-modality parquet files and uploaded to the Hugging Face Datasets hub.",
+      "prov:wasAssociatedWith": {
+        "@type": "prov:Organization",
+        "name": "Anonymous Authors (double-blind submission)"
+      },
+      "prov:used": "Python hashlib (SHA-256); Apache Parquet via PyArrow; Hugging Face Datasets hub."
+    }
+  ]
+}
